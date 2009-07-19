@@ -32,9 +32,18 @@ class TestSite < Test::Unit::TestCase
     end
 
     should "read posts" do
-      @site.read_posts('')
+      @site.read_posts('_posts')
       posts = Dir[source_dir('_posts', '*')]
       assert_equal posts.size - 1, @site.posts.size
+    end
+    
+    should "read posts before processing pages" do
+      clear_dest
+      @site.process
+      content = File.read(File.join(dest_dir, 'blog', 'index.html'))
+      # this tests that, at the time of processing "blog/index.html",
+      # this file had access to the correct total number of posts on the site
+      assert_equal "This blog has #{@site.posts.size} posts.", content
     end
 
     should "deploy payload" do
@@ -55,7 +64,7 @@ class TestSite < Test::Unit::TestCase
       ent2 = %w[.htaccess _posts bla.bla]
 
       assert_equal %w[foo.markdown bar.markdown baz.markdown], @site.filter_entries(ent1)
-      assert_equal ent2, @site.filter_entries(ent2)
+      assert_equal %w[.htaccess bla.bla], @site.filter_entries(ent2)
     end
 
     should "filter entries with exclude" do

@@ -93,6 +93,7 @@ module Jekyll
     def process
       self.reset
       self.read_layouts
+      self.find_posts
       self.transform_pages
       self.write_posts
     end
@@ -112,19 +113,28 @@ module Jekyll
     rescue Errno::ENOENT => e
       # ignore missing layout dir
     end
+    
+    # Find all the nested "_posts" directories in <source>
+    def find_posts
+      directories = Dir.chdir(self.source) do
+        Dir['**/_posts'].select { |dir| File.directory?(dir) }
+      end
+      directories.each { |dir| read_posts(dir) }
+    end
 
-    # Read all the files in <base>/_posts and create a new Post object with each one.
+    # Read all the files in <dir> and create a new Post object with each one.
     #
     # Returns nothing
     def read_posts(dir)
-      base = File.join(self.source, dir, '_posts')
-      entries = []
-      Dir.chdir(base) { entries = filter_entries(Dir['**/*']) }
+      entries = Dir.chdir(File.join(self.source, dir)) { filter_entries(Dir['**/*']) }
+      # get the parent directory above "_posts"
+      base = File.dirname(dir)
+      base = '' if '.' == base
 
       # first pass processes, but does not yet render post content
       entries.each do |f|
         if Post.valid?(f)
-          post = Post.new(self, self.source, dir, f)
+          post = Post.new(self, self.source, base, f)
 
           if post.published
             self.posts << post
@@ -168,16 +178,8 @@ module Jekyll
     def transform_pages(dir = '')
       base = File.join(self.source, dir)
       entries = filter_entries(Dir.entries(base))
-      directories = entries.select { |e| File.directory?(File.join(base, e)) }
-      files = entries.reject { |e| File.directory?(File.join(base, e)) }
+      directories, files = entries.partition { |e| File.directory?(File.join(base, e)) }
 
-      # we need to make sure to process _posts *first* otherwise they
-      # might not be available yet to other templates as {{ site.posts }}
-      if directories.include?('_posts')
-        directories.delete('_posts')
-        read_posts(dir)
-      end
-      
       [directories, files].each do |entries|
         entries.each do |f|
           if File.directory?(File.join(base, f))
@@ -230,18 +232,17 @@ module Jekyll
 
     # Filter out any files/directories that are hidden or backup files (start
     # with "." or "#" or end with "~") or contain site content (start with "_")
-    # unless they are "_posts" directories or web server files such as
-    # '.htaccess'
+    # unless they are '.htaccess'
     def filter_entries(entries)
       entries = entries.reject do |e|
-        unless ['_posts', '.htaccess'].include?(e)
+        unless '.htaccess' == e
           ['.', '_', '#'].include?(e[0..0]) || e[-1..-1] == '~' || self.exclude.include?(e)
         end
       end
     end
 
     # Paginates the blog's posts. Renders the index.html file into paginated directories, ie: page2, page3...
-    # and adds more wite-wide data
+    # and adds more site-wide data
     #
     # {"paginator" => { "page" => <Number>,
     #                   "per_page" => <Number>,
