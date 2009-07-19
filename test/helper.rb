@@ -4,7 +4,11 @@ gem 'RedCloth', '= 4.2.1'
 require File.join(File.dirname(__FILE__), *%w[.. lib jekyll])
 
 require 'test/unit'
-require 'redgreen'
+begin
+  require 'redgreen'
+rescue LoadError
+  # doesn't matter
+end
 require 'shoulda'
 require 'rr'
 
