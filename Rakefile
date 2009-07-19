@@ -23,8 +23,7 @@ begin
     s.add_dependency('open4', '>= 0.9.6')
   end
 rescue LoadError
-  puts "Jeweler not available. Install it with: sudo gem install jeweler --version '>= 0.11.0'"
-  exit(1)
+  $stderr.puts "Gem build tasks not available. Install Jeweler with: sudo gem install jeweler --version '>= 0.11.0'"
 end
 
 Rake::TestTask.new do |t|
