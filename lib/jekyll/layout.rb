@@ -29,6 +29,10 @@ module Jekyll
       self.read_yaml(base, name)
     end
 
+    def inspect
+      "<Layout: @name=#{@name.inspect}>"
+    end
+
     # Extract information from the layout filename.
     #
     # name - The String filename of the layout file.

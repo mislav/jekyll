@@ -22,6 +22,10 @@ module Jekyll
       File.join(@base, @dir, @name)
     end
 
+    def inspect
+      "<StaticFile: #{self.path}>"
+    end
+
     # Obtain destination path.
     #
     # dest - The String path to the destination dir.
