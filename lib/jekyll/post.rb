@@ -40,6 +40,11 @@ module Jekyll
       self.read_yaml(@base, name)
     end
 
+    # The source filename for this post.
+    def filename
+      File.join(@base, name)
+    end
+
     # Save post data and extract various post properties from it.
     def data=(data)
       @data = data

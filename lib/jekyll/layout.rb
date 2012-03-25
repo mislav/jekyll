@@ -29,6 +29,11 @@ module Jekyll
       self.read_yaml(base, name)
     end
 
+    # The source filename for this layout.
+    def filename
+      File.join(@base, @name)
+    end
+
     def inspect
       "<Layout: @name=#{@name.inspect}>"
     end

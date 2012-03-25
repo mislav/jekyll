@@ -24,6 +24,11 @@ module Jekyll
       self.read_yaml(@base, name)
     end
 
+    # The source filename for this page.
+    def filename
+      File.join(@base, name)
+    end
+
     # The generated directory into which the page will be placed
     # upon generation. This is derived from the permalink or, if
     # permalink is absent, we be '/'

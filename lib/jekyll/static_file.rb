@@ -21,6 +21,7 @@ module Jekyll
     def path
       File.join(@base, @dir, @name)
     end
+    alias filename path
 
     def inspect
       "<StaticFile: #{self.path}>"
