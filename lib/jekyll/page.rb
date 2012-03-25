@@ -10,18 +10,18 @@ module Jekyll
 
     # Initialize a new Page.
     #
-    # site - The Site object.
-    # base - The String path to the source.
-    # dir  - The String path between the source and the file.
-    # name - The String filename of the file.
-    def initialize(site, base, dir, name)
+    # site   - The Site object.
+    # source - The String path to the source.
+    # dir    - The String path between the source and the file.
+    # name   - The String filename of the file.
+    def initialize(site, source, dir, name)
       @site = site
-      @base = base
       @dir  = dir
+      @base = File.join(source, @dir)
       @name = name
 
       self.process(name)
-      self.read_yaml(File.join(base, dir), name)
+      self.read_yaml(@base, name)
     end
 
     # The generated directory into which the page will be placed

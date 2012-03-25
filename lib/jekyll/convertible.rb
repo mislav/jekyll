@@ -7,8 +7,10 @@ require 'set'
 #   self.site -> Jekyll::Site
 #   self.content
 #   self.content=
+#   self.data
 #   self.data=
-#   self.ext=
+#   self.ext
+#   self.output
 #   self.output=
 #   self.name
 module Jekyll

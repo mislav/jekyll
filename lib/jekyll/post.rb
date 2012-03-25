@@ -24,13 +24,12 @@ module Jekyll
 
     attr_reader :name
 
-    # Initialize this Post instance.
-    #   +site+ is the Site
-    #   +base+ is the String path to the dir containing the post file
-    #   +name+ is the String filename of the post file
-    #   +categories+ is an Array of Strings for the categories for this post
+    # Initialize a new Post.
     #
-    # Returns <Post>
+    # site   - The Site object.
+    # source - The String path to the source.
+    # dir    - The String path between the source and the file.
+    # name   - The String filename of the file.
     def initialize(site, source, dir, name)
       @site = site
       @base = File.join(source, dir, '_posts')
