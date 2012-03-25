@@ -19,10 +19,10 @@ module Jekyll
     end
 
     attr_accessor :site
-    attr_accessor :data, :content, :output, :ext
+    attr_accessor :content, :output, :ext
     attr_accessor :date, :slug, :published, :tags, :categories
 
-    attr_reader :name
+    attr_reader :name, :data
 
     # Initialize a new Post.
     #
@@ -34,29 +34,32 @@ module Jekyll
       @site = site
       @base = File.join(source, dir, '_posts')
       @name = name
+      @categories = dir.split('/').reject { |x| x.empty? }
 
-      self.categories = dir.split('/').reject { |x| x.empty? }
       self.process(name)
       self.read_yaml(@base, name)
+    end
 
-      #If we've added a date and time to the yaml, use that instead of the filename date
-      #Means we'll sort correctly.
-      if self.data.has_key?('date')
-        # ensure Time via to_s and reparse
-        self.date = Time.parse(self.data["date"].to_s)
+    # Save post data and extract various post properties from it.
+    def data=(data)
+      @data = data
+      return if data.nil?
+
+      # data can override the date from the filename
+      if data.has_key?('date')
+        self.date = Time.parse(data['date'].to_s)
       end
 
-      if self.data.has_key?('published') && self.data['published'] == false
-        self.published = false
-      else
-        self.published = true
-      end
+      self.published = data['published'] != false
 
-      self.tags = self.data.pluralized_array("tag", "tags")
+      self.tags = data.pluralized_array('tag', 'tags')
 
       if self.categories.empty?
-        self.categories = self.data.pluralized_array('category', 'categories')
+        # TODO: merge with categories from path?
+        self.categories = data.pluralized_array('category', 'categories')
       end
+
+      @data
     end
 
     # Spaceship is based on Post#date, slug

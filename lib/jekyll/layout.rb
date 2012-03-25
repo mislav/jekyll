@@ -25,8 +25,6 @@ module Jekyll
       @base = base
       @name = name
 
-      self.data = {}
-
       self.process(name)
       self.read_yaml(base, name)
     end

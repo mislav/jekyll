@@ -29,6 +29,7 @@ class TestPost < Test::Unit::TestCase
       setup do
         @post = Post.allocate
         @post.site = @site
+        @post.categories = []
 
         @real_file = "2008-10-18-foo-bar.textile"
         @fake_file = "2008-09-09-foo-bar.textile"
@@ -36,7 +37,6 @@ class TestPost < Test::Unit::TestCase
       end
 
       should "keep date, title, and markup type" do
-        @post.categories = []
         @post.process(@fake_file)
 
         assert_equal Time.parse("2008-09-09"), @post.date
@@ -47,7 +47,6 @@ class TestPost < Test::Unit::TestCase
       end
 
       should "create url based on date and title" do
-        @post.categories = []
         @post.process(@fake_file)
         assert_equal "/2008/09/09/foo-bar.html", @post.url
       end
@@ -59,7 +58,6 @@ class TestPost < Test::Unit::TestCase
       end
 
       should "CGI escape urls" do
-        @post.categories = []
         @post.process("2009-03-12-hash-#1.markdown")
         assert_equal "/2009/03/12/hash-%231.html", @post.url
         assert_equal "/2009/03/12/hash-#1", @post.id
@@ -101,10 +99,6 @@ class TestPost < Test::Unit::TestCase
       end
 
       context "with site wide permalink" do
-        setup do
-          @post.categories = []
-        end
-
         context "with unspecified (date) style" do
           setup do
             @post.process(@fake_file)
