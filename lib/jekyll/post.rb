@@ -8,7 +8,7 @@ module Jekyll
       attr_accessor :lsi
     end
 
-    MATCHER = /^(.+\/)*(\d+-\d+-\d+)-(.*)(\.[^.]+)$/
+    MATCHER = /^(?:.+\/)*(\d+-\d+-\d+)-(.*)(\.[^.]+)$/
 
     # Post name validator. Post filenames must be like:
     #   2008-11-05-my-awesome-post.textile
@@ -75,10 +75,8 @@ module Jekyll
     #
     # Returns nothing
     def process(name)
-      m, cats, date, slug, ext = *name.match(MATCHER)
+      _, date, self.slug, self.ext = *name.match(MATCHER)
       self.date = Time.parse(date)
-      self.slug = slug
-      self.ext = ext
     rescue ArgumentError
       raise FatalException.new("Post #{name} does not have a valid date.")
     end

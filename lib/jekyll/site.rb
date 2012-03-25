@@ -205,7 +205,7 @@ module Jekyll
 
       self.categories.values.map { |ps| ps.sort! { |a, b| b <=> a } }
       self.tags.values.map { |ps| ps.sort! { |a, b| b <=> a } }
-    rescue Errno::ENOENT => e
+    rescue Errno::ENOENT
       # ignore missing layout dir
     end
 
