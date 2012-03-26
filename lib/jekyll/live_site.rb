@@ -12,10 +12,13 @@ class LiveSite < Site
 
     return false if pages.empty?
 
+    payload = nil
+
     for page in pages
       if page.respond_to? :render
+        payload ||= self.site_payload
         page.read_yaml('', page.filename)
-        page.render(self.layouts, site_payload)
+        page.render(self.layouts, payload)
       end
 
       if page.write(self.dest)
