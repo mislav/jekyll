@@ -30,7 +30,7 @@ class LiveSite < Site
 
   def resolve_file filename
     path = File.expand_path filename, self.source
-    file = ContentFile.new path, self.source, self.dest, self.public_method(:allow_file?)
+    file = ContentFile.new path, self.source, self.dest, self.method(:allow_file?)
     unless file.valid?
       warn "invalid file: #{file.path}"
       return
