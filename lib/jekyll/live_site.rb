@@ -60,9 +60,13 @@ class LiveSite < Site
       end
 
       page ||= if has_yaml_header? file.path
-                 self.pages << Page.new(self, self.source, file.dir, file.name)
+                 new_page = Page.new(self, self.source, file.dir, file.name)
+                 self.pages << new_page
+                 new_page
                else
-                 self.static_files << StaticFile.new(self, self.source, file.dir, file.name)
+                 new_file = StaticFile.new(self, self.source, file.dir, file.name)
+                 self.static_files << new_file
+                 new_file
                end
 
       yield page
