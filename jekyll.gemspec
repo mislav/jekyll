@@ -59,6 +59,7 @@ Gem::Specification.new do |s|
     features/step_definitions/jekyll_steps.rb
     features/support/env.rb
     jekyll.gemspec
+    lib/guard/jekyll.rb
     lib/jekyll.rb
     lib/jekyll/converter.rb
     lib/jekyll/converters/identity.rb
