@@ -1,26 +1,16 @@
+# encoding: utf-8
 Gem::Specification.new do |s|
-  s.specification_version = 2 if s.respond_to? :specification_version=
-  s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
-  s.rubygems_version = '1.3.5'
+  s.name        = 'jekyll-reloaded'
+  s.version     = '0.12'
 
-  s.name              = 'jekyll'
-  s.version           = '0.11.2'
-  s.date              = '2011-12-27'
-  s.rubyforge_project = 'jekyll'
-
-  s.summary     = "A simple, blog aware, static site generator."
+  s.summary     = "Mislav's fork of Jekyll"
   s.description = "Jekyll is a simple, blog aware, static site generator."
 
-  s.authors  = ["Tom Preston-Werner"]
-  s.email    = 'tom@mojombo.com'
-  s.homepage = 'http://github.com/mojombo/jekyll'
+  s.authors  = ["Tom Preston-Werner", "Mislav Marohnić"]
+  s.email    = 'mislav.marohnic@gmail.com'
+  s.homepage = 'https://github.com/mislav/jekyll/tree/reloaded'
 
-  s.require_paths = %w[lib]
-
-  s.executables = ["jekyll"]
-
-  s.rdoc_options = ["--charset=UTF-8"]
-  s.extra_rdoc_files = %w[README.textile LICENSE]
+  # s.executables = ["jekyll"]
 
   s.add_runtime_dependency('liquid', "~> 2.3")
   s.add_runtime_dependency('classifier', "~> 1.3")
@@ -72,13 +62,16 @@ Gem::Specification.new do |s|
     lib/jekyll/generator.rb
     lib/jekyll/generators/pagination.rb
     lib/jekyll/layout.rb
+    lib/jekyll/live_site.rb
     lib/jekyll/migrators/csv.rb
     lib/jekyll/migrators/drupal.rb
     lib/jekyll/migrators/enki.rb
+    lib/jekyll/migrators/joomla.rb
     lib/jekyll/migrators/marley.rb
     lib/jekyll/migrators/mephisto.rb
     lib/jekyll/migrators/mt.rb
     lib/jekyll/migrators/posterous.rb
+    lib/jekyll/migrators/rss.rb
     lib/jekyll/migrators/textpattern.rb
     lib/jekyll/migrators/tumblr.rb
     lib/jekyll/migrators/typo.rb
@@ -91,6 +84,7 @@ Gem::Specification.new do |s|
     lib/jekyll/static_file.rb
     lib/jekyll/tags/highlight.rb
     lib/jekyll/tags/include.rb
+    lib/jekyll/tags/post_url.rb
     test/helper.rb
     test/source/.htaccess
     test/source/_includes/sig.markdown
@@ -142,9 +136,9 @@ Gem::Specification.new do |s|
     test/test_post.rb
     test/test_rdiscount.rb
     test/test_redcarpet.rb
+    test/test_redcloth.rb
     test/test_site.rb
     test/test_tags.rb
-    test/test_redcloth.rb
   ]
   # = MANIFEST =
 
